@@ -55,47 +55,47 @@ interp-add1 = pathToEquiv-ua succEquiv
 pathToEquiv-comp : {A B C : Type} (q : A ≡ B) → (p : B ≡ C)
                    → pathToEquiv (q ∙ p) ≡ pathToEquiv q ∙ₑ pathToEquiv p 
 pathToEquiv-comp q p =
-    pathToEquiv (q ∙ p)
-        ≡⟨ cong pathToEquiv (cong₂ _∙_ (sym (ua-pathToEquiv q)) (sym (ua-pathToEquiv p))) ⟩
-    pathToEquiv (ua (pathToEquiv q) ∙ ua (pathToEquiv p))
-        ≡⟨ cong pathToEquiv (sym (uaCompEquiv (pathToEquiv q) (pathToEquiv p))) ⟩
-    pathToEquiv (ua (pathToEquiv q ∙ₑ pathToEquiv p))
-        ≡⟨ pathToEquiv-ua (pathToEquiv q ∙ₑ pathToEquiv p) ⟩
-    pathToEquiv q ∙ₑ pathToEquiv p ∎
+  pathToEquiv (q ∙ p)
+    ≡⟨ cong pathToEquiv (cong₂ _∙_ (sym (ua-pathToEquiv q)) (sym (ua-pathToEquiv p))) ⟩
+  pathToEquiv (ua (pathToEquiv q) ∙ ua (pathToEquiv p))
+    ≡⟨ cong pathToEquiv (sym (uaCompEquiv (pathToEquiv q) (pathToEquiv p))) ⟩
+  pathToEquiv (ua (pathToEquiv q ∙ₑ pathToEquiv p))
+    ≡⟨ pathToEquiv-ua (pathToEquiv q ∙ₑ pathToEquiv p) ⟩
+  pathToEquiv q ∙ₑ pathToEquiv p ∎
 
 interp-trans : {q p : num ≡ num} → interp (q ∙ p) ≡ ((interp q) ∙ₑ (interp p))
 interp-trans {q = q} {p = p} = pathToEquiv-comp (cong I' q) (cong I' p)
---     interp (q ∙ p)
---         ≡⟨ refl ⟩
---     pathToEquiv (cong I' (q ∙ p))
---         ≡⟨ refl ⟩
---     pathToEquiv ((cong I' q) ∙ (cong I' p))
---         ≡⟨ pathToEquiv-comp (cong I' q) (cong I' p) ⟩
---     pathToEquiv (cong I' q) ∙ₑ pathToEquiv (cong I' p)
---         ≡⟨ refl ⟩
---     (interp q) ∙ₑ (interp p) ∎
+--   interp (q ∙ p)
+--     ≡⟨ refl ⟩
+--   pathToEquiv (cong I' (q ∙ p))
+--     ≡⟨ refl ⟩
+--   pathToEquiv ((cong I' q) ∙ (cong I' p))
+--     ≡⟨ pathToEquiv-comp (cong I' q) (cong I' p) ⟩
+--   pathToEquiv (cong I' q) ∙ₑ pathToEquiv (cong I' p)
+--     ≡⟨ refl ⟩
+--   (interp q) ∙ₑ (interp p) ∎
 
 interp-refl : interp refl ≡ idEquiv ℤ
 interp-refl = pathToEquivRefl
---     interp refl      ≡⟨ refl ⟩
---     pathToEquiv refl ≡⟨ pathToEquivRefl ⟩
---     idEquiv ℤ        ∎
+--   interp refl      ≡⟨ refl ⟩
+--   pathToEquiv refl ≡⟨ pathToEquivRefl ⟩
+--   idEquiv ℤ        ∎
 
 interp-sym : {p : num ≡ num} → interp (sym p) ≡ invEquiv (interp p)
 interp-sym {p = p} =
-    interp (sym p)
-        ≡⟨ refl ⟩
-    pathToEquiv (cong I' (sym p))
-        ≡⟨ refl ⟩
-    pathToEquiv (sym (cong I' p))
-        ≡⟨ cong (λ x → pathToEquiv (sym x)) (sym (ua-pathToEquiv (cong I' p))) ⟩
-    pathToEquiv (sym (ua (pathToEquiv (cong I' p))))
-        ≡⟨ cong (λ x → pathToEquiv x) (sym (uaInvEquiv (pathToEquiv (cong I' p)))) ⟩
-    pathToEquiv (ua (invEquiv (pathToEquiv (cong I' p))))
-        ≡⟨ pathToEquiv-ua (invEquiv (pathToEquiv (cong I' p))) ⟩
-    invEquiv (pathToEquiv (cong I' p))
-        ≡⟨ refl ⟩
-    invEquiv (interp p) ∎
+  interp (sym p)
+    ≡⟨ refl ⟩
+  pathToEquiv (cong I' (sym p))
+    ≡⟨ refl ⟩
+  pathToEquiv (sym (cong I' p))
+    ≡⟨ cong (λ x → pathToEquiv (sym x)) (sym (ua-pathToEquiv (cong I' p))) ⟩
+  pathToEquiv (sym (ua (pathToEquiv (cong I' p))))
+    ≡⟨ cong (λ x → pathToEquiv x) (sym (uaInvEquiv (pathToEquiv (cong I' p)))) ⟩
+  pathToEquiv (ua (invEquiv (pathToEquiv (cong I' p))))
+    ≡⟨ pathToEquiv-ua (invEquiv (pathToEquiv (cong I' p))) ⟩
+  invEquiv (pathToEquiv (cong I' p))
+    ≡⟨ refl ⟩
+  invEquiv (interp p) ∎
 
 interp-comp-rev : (interp (add1 ∙ sym add1) .fst) 0 ≡ 0
 interp-comp-rev = refl 
@@ -127,37 +127,37 @@ repeat-homo x (pos zero)       = rUnit (repeat x)
 -- repeat x ∙ refl    ≡⟨ refl ⟩
 -- repeat x ∙ repeat (pos 0) ∎
 repeat-homo x (pos (suc n))    =
-    repeat (x + pos (suc n))
-        ≡⟨ refl ⟩
-    repeat (x +pos (suc n)) 
-        ≡⟨ refl ⟩
-    repeat (sucℤ (x +pos n))
-        ≡⟨ repeat-sucℤ (x +pos n) ⟩
-    repeat (x +pos n) ∙ add1
-        ≡⟨ refl ⟩
-    repeat (x + (pos n)) ∙ add1
-        ≡⟨ cong (_∙ add1) (repeat-homo x (pos n)) ∙ sym (assoc (repeat x) (repeat (pos n)) add1) ⟩
-    repeat x ∙ repeat (pos n) ∙ add1
-        ≡⟨ refl ⟩
-    repeat x ∙ repeat (pos (suc n)) ∎
+  repeat (x + pos (suc n))
+    ≡⟨ refl ⟩
+  repeat (x +pos (suc n)) 
+    ≡⟨ refl ⟩
+  repeat (sucℤ (x +pos n))
+    ≡⟨ repeat-sucℤ (x +pos n) ⟩
+  repeat (x +pos n) ∙ add1
+    ≡⟨ refl ⟩
+  repeat (x + (pos n)) ∙ add1
+    ≡⟨ cong (_∙ add1) (repeat-homo x (pos n)) ∙ sym (assoc (repeat x) (repeat (pos n)) add1) ⟩
+  repeat x ∙ repeat (pos n) ∙ add1
+    ≡⟨ refl ⟩
+  repeat x ∙ repeat (pos (suc n)) ∎
 repeat-homo x (negsuc zero)    = repeat-predℤ x
---     repeat (x + negsuc 0) ≡⟨ refl ⟩
---     repeat (x +negsuc 0) ≡⟨ refl ⟩
---     repeat (predℤ x) ≡⟨ repeat-predℤ x ⟩
---     repeat x ∙ sym (add1) ≡⟨ refl ⟩
---     repeat x ∙ repeat (negsuc 0) ∎
+--   repeat (x + negsuc 0) ≡⟨ refl ⟩
+--   repeat (x +negsuc 0) ≡⟨ refl ⟩
+--   repeat (predℤ x) ≡⟨ repeat-predℤ x ⟩
+--   repeat x ∙ sym (add1) ≡⟨ refl ⟩
+--   repeat x ∙ repeat (negsuc 0) ∎
 repeat-homo x (negsuc (suc n)) =
-    repeat (x + negsuc (suc n))
-        ≡⟨ refl ⟩
-    repeat (x +negsuc (suc n))
-        ≡⟨ refl ⟩
-    repeat (predℤ (x +negsuc n))
-        ≡⟨ repeat-predℤ (x +negsuc n) ⟩
-    repeat (x +negsuc n) ∙ sym add1
-        ≡⟨ cong (_∙ sym add1) (repeat-homo x (negsuc n)) ∙ sym (assoc (repeat x) (repeat (negsuc n)) (sym add1)) ⟩
-    repeat x ∙ repeat (negsuc n) ∙ sym add1
-        ≡⟨ refl ⟩
-    repeat x ∙ repeat (negsuc (suc n)) ∎
+  repeat (x + negsuc (suc n))
+    ≡⟨ refl ⟩
+  repeat (x +negsuc (suc n))
+    ≡⟨ refl ⟩
+  repeat (predℤ (x +negsuc n))
+    ≡⟨ repeat-predℤ (x +negsuc n) ⟩
+  repeat (x +negsuc n) ∙ sym add1
+    ≡⟨ cong (_∙ sym add1) (repeat-homo x (negsuc n)) ∙ sym (assoc (repeat x) (repeat (negsuc n)) (sym add1)) ⟩
+  repeat x ∙ repeat (negsuc n) ∙ sym add1
+    ≡⟨ refl ⟩
+  repeat x ∙ repeat (negsuc (suc n)) ∎
 
 repeat-comm : (x : ℤ) → (y : ℤ) → repeat x ∙ repeat y ≡ repeat y ∙ repeat x
 repeat-comm x y = repeat x ∙ repeat y ≡⟨ sym (repeat-homo x y) ⟩
@@ -168,18 +168,18 @@ repeat-comm x y = repeat x ∙ repeat y ≡⟨ sym (repeat-homo x y) ⟩
 winding-repeat : (n : ℤ) → winding (repeat n) ≡ n
 winding-repeat (pos zero)       = refl
 winding-repeat (pos (suc n))    = cong (_+ winding (add1)) (winding-repeat (pos n))
---     winding (repeat (pos (suc n))) ≡⟨ refl ⟩
---     winding (repeat (pos n) ∙ add1) ≡⟨ refl ⟩
---     winding (repeat (pos n)) + winding (add1) ≡⟨ cong (_+ winding (add1)) (winding-repeat (pos n)) ⟩
---     (pos n) + 1 ≡⟨ refl ⟩
---     pos (suc n) ∎
+--   winding (repeat (pos (suc n))) ≡⟨ refl ⟩
+--   winding (repeat (pos n) ∙ add1) ≡⟨ refl ⟩
+--   winding (repeat (pos n)) + winding (add1) ≡⟨ cong (_+ winding (add1)) (winding-repeat (pos n)) ⟩
+--   (pos n) + 1 ≡⟨ refl ⟩
+--   pos (suc n) ∎
 winding-repeat (negsuc zero)    = refl 
 winding-repeat (negsuc (suc n)) = cong (_+ winding (sym add1)) (winding-repeat (negsuc n))
---     winding (repeat (negsuc (suc n))) ≡⟨ refl ⟩
---     winding (repeat (negsuc n) ∙ sym add1) ≡⟨ refl ⟩
---     winding (repeat (negsuc n)) + winding (sym add1) ≡⟨ cong (_+ winding (sym add1)) (winding-repeat (negsuc n)) ⟩
---     (negsuc n) - 1 ≡⟨ refl ⟩
---     negsuc (suc n) ∎
+--   winding (repeat (negsuc (suc n))) ≡⟨ refl ⟩
+--   winding (repeat (negsuc n) ∙ sym add1) ≡⟨ refl ⟩
+--   winding (repeat (negsuc n)) + winding (sym add1) ≡⟨ cong (_+ winding (sym add1)) (winding-repeat (negsuc n)) ⟩
+--   (negsuc n) - 1 ≡⟨ refl ⟩
+--   negsuc (suc n) ∎
 
 encode : (x : R) → num ≡ x → I' x
 encode x p = transport (cong I' p) 0
@@ -216,17 +216,17 @@ merge (f1 , f2) = (f2 , f1)
 reconcile : (f1 f2 g1 g2 : Patch) → merge (f1 , f2) ≡ (g1 , g2)
             → g1 ∙ f1 ≡ g2 ∙ f2
 reconcile f1 f2 g1 g2 p =
-    g1 ∙ f1
-        ≡⟨ cong (λ q → q ∙ f1) (sym (cong fst p)) ⟩
-    f2 ∙ f1
-        ≡⟨ cong₂ _∙_ (sym (repeat-winding f2)) (sym (repeat-winding f1)) ⟩
-    repeat (winding f2) ∙ repeat (winding f1)
-        ≡⟨ repeat-comm (winding f2) (winding f1) ⟩
-    repeat (winding f1) ∙ repeat (winding f2)
-        ≡⟨ cong₂ _∙_ (repeat-winding f1) (repeat-winding f2) ⟩
-    f1 ∙ f2
-        ≡⟨ cong (λ q → q ∙ f2) (cong snd p) ⟩
-    g2 ∙ f2 ∎
+  g1 ∙ f1
+    ≡⟨ cong (λ q → q ∙ f1) (sym (cong fst p)) ⟩
+  f2 ∙ f1
+    ≡⟨ cong₂ _∙_ (sym (repeat-winding f2)) (sym (repeat-winding f1)) ⟩
+  repeat (winding f2) ∙ repeat (winding f1)
+    ≡⟨ repeat-comm (winding f2) (winding f1) ⟩
+  repeat (winding f1) ∙ repeat (winding f2)
+    ≡⟨ cong₂ _∙_ (repeat-winding f1) (repeat-winding f2) ⟩
+  f1 ∙ f2
+    ≡⟨ cong (λ q → q ∙ f2) (cong snd p) ⟩
+  g2 ∙ f2 ∎
 
 symmetric : (f1 f2 g1 g2 : Patch) → merge (f1 , f2) ≡ (g1 , g2)
             → merge (f2 , f1) ≡ (g2 , g1)
@@ -239,46 +239,24 @@ merge≡rebase : (f1 f2 g1 g2 g : Patch)
                → merge (f1 , f2) ≡ (g1 , g2) → rebase (f1 , f2) ≡ g
                → g2 ∙ f2 ≡ g ∙ f2
 merge≡rebase f1 f2 g1 g2 g p q = 
-    g2 ∙ f2
-        ≡⟨ cong (λ r → r ∙ f2) (sym (cong snd p)) ⟩
-    f1 ∙ f2
-        ≡⟨ cong (λ r → r ∙ f2) (q) ⟩
-    g ∙ f2 ∎
+  g2 ∙ f2
+    ≡⟨ cong (_∙ f2) (sym (cong snd p)) ⟩
+  f1 ∙ f2
+    ≡⟨ cong (_∙ f2) (q) ⟩
+  g ∙ f2 ∎
 
-rebase-symm : (f1 f2 g1 g2 h1 h2 : Patch)
-              → merge (f1 , f2) ≡ (g1 , g2)
-              → rebase (f1 , f2) ≡ h1 → rebase (f2 , f1) ≡ h2
-              → h1 ∙ f2 ≡ h2 ∙ f1
-rebase-symm f1 f2 g1 g2 h1 h2 p q r = 
-    h1 ∙ f2 ≡⟨ {!!} ⟩
-    f
-    h2 ∙ f1 ∎
-        
-
--- rebase : Patch × Patch → Patch
--- rebase (f1 , f2) = f2 ∙ f1
--- 
--- merge≡rebase : (f1 f2 g1 g2 g : Patch)
---                → merge (f1 , f2) ≡ (g1 , g2) → rebase (f1 , f2) ≡ g
---                → g1 ∙ f1 ≡ g
--- merge≡rebase f1 f2 g1 g2 g p q =
---     g1 ∙ f1 ≡⟨ cong (λ q → q ∙ f1) (sym (cong fst p)) ⟩
---     f2 ∙ f1 ≡⟨ q ⟩
---     g ∎
--- 
--- rebase-symm : (f1 f2 g : Patch)
---               → rebase (f1 , f2) ≡ g → rebase (f2 , f1) ≡ g
--- rebase-symm f1 f2 g p = 
---     rebase (f2 , f1)
---         ≡⟨ refl ⟩
---     f1 ∙ f2
---         ≡⟨ cong₂ _∙_ (sym (repeat-winding f1)) (sym (repeat-winding f2)) ⟩
---     repeat (winding f1) ∙ repeat (winding f2)
---         ≡⟨ repeat-comm (winding f1) (winding f2) ⟩
---     repeat (winding f2) ∙ repeat (winding f1)
---         ≡⟨ cong₂ _∙_ (repeat-winding f2) (repeat-winding f1) ⟩
---     f2 ∙ f1
---         ≡⟨ refl ⟩
---     rebase (f1 , f2)
---         ≡⟨ p ⟩
---     g ∎
+rebase-symm : (f1 f2 g1 g2 : Patch)
+              → rebase (f1 , f2) ≡ g1 → rebase (f2 , f1) ≡ g2
+              → g1 ∙ f2 ≡ g2 ∙ f1
+rebase-symm f1 f2 g1 g2 p q = 
+  g1 ∙ f2
+    ≡⟨ cong (_∙ f2) (sym (p)) ⟩
+  f1 ∙ f2 
+    ≡⟨ cong₂ _∙_ (sym (repeat-winding f1)) (sym (repeat-winding f2)) ⟩
+  repeat (winding f1) ∙ repeat (winding f2)
+    ≡⟨ repeat-comm (winding f1) (winding f2) ⟩
+  repeat (winding f2) ∙ repeat (winding f1)
+    ≡⟨ cong₂ _∙_ (repeat-winding f2) (repeat-winding f1) ⟩
+  f2 ∙ f1
+    ≡⟨ cong (_∙ f1) q ⟩
+  g2 ∙ f1 ∎
