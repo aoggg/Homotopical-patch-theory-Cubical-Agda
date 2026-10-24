@@ -11,4 +11,3 @@ of their properties.
 It also explores patch theory with laws.
 
 [Read the Abstract](./abstract.pdf)
-
