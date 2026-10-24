@@ -57,7 +57,7 @@ permute-perm (s1 , s2) s with stringEq s1 s
 permute-perm (s1 , s2) s | inl x with stringEq s1 s2
 permute-perm (s1 , s2) s | inl x | inl y = y ⁻¹ ∙ x
 permute-perm (s1 , s2) s | inl x | inr y with stringEq s2 s2
-permute-perm (s1 , s2) s | inl x | inr y | inl z = x
+permute-perm (s1 , s2) s | inl x | inr y | inl z = x -- x
 permute-perm (s1 , s2) s | inl x | inr y | inr z = elim (z (refl))
 permute-perm (s1 , s2) s | inr x with stringEq s2 s
 permute-perm (s1 , s2) s | inr x | inl y with stringEq s1 s1

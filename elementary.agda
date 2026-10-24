@@ -232,31 +232,60 @@ symmetric : (f1 f2 g1 g2 : Patch) → merge (f1 , f2) ≡ (g1 , g2)
             → merge (f2 , f1) ≡ (g2 , g1)
 symmetric f1 f2 g1 g2 p = cong (λ (x , y) → (y , x)) p
 
-rebase : Patch × Patch → Patch
-rebase (f1 , f2) = f1
+rebase : Patch × Patch → Patch × Patch
+rebase (f1 , f2) = (f1 ⁻¹ , f1)
 
-merge≡rebase : (f1 f2 g1 g2 g : Patch)
-               → merge (f1 , f2) ≡ (g1 , g2) → rebase (f1 , f2) ≡ g
-               → g2 ∙ f2 ≡ g ∙ f2
-merge≡rebase f1 f2 g1 g2 g p q = 
+merge≡rebase : (f1 f2 g1 g2 h1 h2 : Patch)
+               → merge (f1 , f2) ≡ (g1 , g2) → rebase (f1 , f2) ≡ (h1 , h2)
+               → g2 ∙ f2 ≡ h2 ∙ f2
+merge≡rebase f1 f2 g1 g2 h1 h2 p q = 
   g2 ∙ f2
     ≡⟨ cong (_∙ f2) (sym (cong snd p)) ⟩
   f1 ∙ f2
-    ≡⟨ cong (_∙ f2) (q) ⟩
-  g ∙ f2 ∎
+    ≡⟨ cong (_∙ f2) (cong snd q) ⟩
+  h2 ∙ f2 ∎
 
-rebase-symm : (f1 f2 g1 g2 : Patch)
-              → rebase (f1 , f2) ≡ g1 → rebase (f2 , f1) ≡ g2
-              → g1 ∙ f2 ≡ g2 ∙ f1
-rebase-symm f1 f2 g1 g2 p q = 
-  g1 ∙ f2
-    ≡⟨ cong (_∙ f2) (sym (p)) ⟩
-  f1 ∙ f2 
-    ≡⟨ cong₂ _∙_ (sym (repeat-winding f1)) (sym (repeat-winding f2)) ⟩
+rebase-symm : (f1 f2 g1 g2 h1 h2 : Patch)
+              → rebase (f1 , f2) ≡ (g1 , g2) → rebase (f2 , f1) ≡ (h1 , h2)
+              → g2 ∙ f2 ≡ h2 ∙ f1
+rebase-symm f1 f2 g1 g2 h1 h2 p q = 
+  g2 ∙ f2
+    ≡⟨ cong (_∙ f2) (sym (cong snd p)) ⟩
+  f1 ∙ f2
+    ≡⟨ cong₂ (_∙_) (sym (repeat-winding f1)) (sym (repeat-winding f2))  ⟩
   repeat (winding f1) ∙ repeat (winding f2)
     ≡⟨ repeat-comm (winding f1) (winding f2) ⟩
   repeat (winding f2) ∙ repeat (winding f1)
-    ≡⟨ cong₂ _∙_ (repeat-winding f2) (repeat-winding f1) ⟩
+    ≡⟨ cong₂ (_∙_) (repeat-winding f2) (repeat-winding f1) ⟩
   f2 ∙ f1
-    ≡⟨ cong (_∙ f1) q ⟩
-  g2 ∙ f1 ∎
+    ≡⟨ cong (_∙ f1) (cong snd q) ⟩
+  h2 ∙ f1 ∎
+
+-- rebase : Patch × Patch → Patch
+-- rebase (f1 , f2) = f1
+-- 
+-- merge≡rebase : (f1 f2 g1 g2 g : Patch)
+--                → merge (f1 , f2) ≡ (g1 , g2) → rebase (f1 , f2) ≡ g
+--                → g2 ∙ f2 ≡ g ∙ f2
+-- merge≡rebase f1 f2 g1 g2 g p q = 
+--   g2 ∙ f2
+--     ≡⟨ cong (_∙ f2) (sym (cong snd p)) ⟩
+--   f1 ∙ f2
+--     ≡⟨ cong (_∙ f2) (q) ⟩
+--   g ∙ f2 ∎
+-- 
+-- rebase-symm : (f1 f2 g1 g2 : Patch)
+--               → rebase (f1 , f2) ≡ g1 → rebase (f2 , f1) ≡ g2
+--               → g1 ∙ f2 ≡ g2 ∙ f1
+-- rebase-symm f1 f2 g1 g2 p q = 
+--   g1 ∙ f2
+--     ≡⟨ cong (_∙ f2) (sym (p)) ⟩
+--   f1 ∙ f2 
+--     ≡⟨ cong₂ _∙_ (sym (repeat-winding f1)) (sym (repeat-winding f2)) ⟩
+--   repeat (winding f1) ∙ repeat (winding f2)
+--     ≡⟨ repeat-comm (winding f1) (winding f2) ⟩
+--   repeat (winding f2) ∙ repeat (winding f1)
+--     ≡⟨ cong₂ _∙_ (repeat-winding f2) (repeat-winding f1) ⟩
+--   f2 ∙ f1
+--     ≡⟨ cong (_∙ f1) q ⟩
+--   g2 ∙ f1 ∎
