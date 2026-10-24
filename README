@@ -1,0 +1,15 @@
+
+# Patch Theory in Cubical Agda
+
+Formalization of Homotopical Patch Theory using
+Cubical Agda.
+
+## Overview
+This project formalizes elementary patch theory,
+including merge and rebase operations and proofs
+of their properties.
+
+It also explores patch theory with laws.
+
+[Read the Abstract](./abstract.pdf)
+
